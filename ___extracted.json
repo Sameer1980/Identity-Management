@@ -1,0 +1,112 @@
+[
+    {
+        "topic": "ccm.claims.message.case.v1",
+        "key": null,
+        "value": {
+            "messageInformation": {
+                "businessPurposeTypeCode": "00000",
+                "effectiveDate": "2022-04-21T01:48:26Z",
+                "sender": "CMS",
+                "trackingNumber": "005056B1-D5C8-A1EC-B04D-A9EF97B8CE41"
+            },
+            "message": {
+                "id": "465",
+                "typeCode": "ClaimCase",
+                "date": "2022-04-21T01:48:26Z",
+                "categoryCode": "Business",
+                "messageType": "Case Request"
+            },
+            "audit": {
+                "entityGuid": "005056B1-D5C8-A1EC-B04D-A9EF97B8CE41",
+                "activityProcessName": "CreateCaseCMSOpsImpl",
+                "requestID": "OP_RQ000000000000871",
+                "caseId": "NULL",
+                "taskId": "OP_TS000000000000896",
+                "auditType": "request",
+                "actionType": "request creation",
+                "eventTMS": "2022-04-21T01:48:26Z",
+                "status": "Open"
+            },
+            "caseRequest": {
+                "requestID": "OP_RQ000000000000871",
+                "caseRequestType": "CMSOps",
+                "requestType": "CMSOps",
+                "claimNumber": "040521002386",
+                "sourceSystem": "CFN",
+                "policyNumber": "000071641678",
+                "requestTo": "OPS",
+                "requestStatus": "Open",
+                "function": "File Management",
+                "pod": "Attaching",
+                "activity": "ATT",
+                "variation": "Correction on Existing Attachment",
+                "region": "NULL",
+                "State": "NULL",
+                "source": "Claim Operation Form",
+                "sla": "NULL",
+                "rushIndicator": "false",
+                "comments": "NULL",
+                "additionalInformation": "no info",
+                "requestedBy": "SAVELPU",
+                "submittedBy": "NULL",
+                "createdOn": "2022-04-21T05:48:24.097Z",
+                "modifiedOn": "2022-04-21T05:48:24.097Z",
+                "createdBy": "NULL",
+                "modifiedBy": "NULL",
+                "exception": {
+                    "exceptionType": "NULL"
+                },
+                "email": {
+                    "sender": "NULL",
+                    "recipient": "NULL",
+                    "attachmentId": "NULL",
+                    "outlookmessageid": "NULL",
+                    "date": "NULL",
+                    "subject": "NULL",
+                    "zipAttachmentUrl": "NULL",
+                    "attachmentsUrl": "NULL",
+                    "medicalBill": "NULL",
+                    "healthinsforms": "NULL",
+                    "mailbox": "NULL"
+                },
+                "lineOfBusinessCode": "NULL"
+            },
+            "case": {
+                "caseID": "DUMMY",
+                "modifiedOn": "2022-04-21T01:48:26Z",
+                "task": [
+                    {
+                        "taskID": "OP_TS000000000000896",
+                        "taskStatus": "Open",
+                        "taskStatusReason": "NULL",
+                        "asignID": "NULL",
+                        "assignUser": "NULL",
+                        "function": "File Management",
+                        "pod": "Attaching",
+                        "sla": "NULL",
+                        "slaDeadline": "1900-01-01T00:00:01Z",
+                        "activityID": "ATT",
+                        "creationTime": "2022-04-21T05:48:24.097Z",
+                        "isAutoAssign": "false",
+                        "isTaskInTriageQueue": "NULL",
+                        "taskCompletionTime": "NULL",
+                        "targetHandlingTime": "NULL",
+                        "slaMetFlag": "NULL",
+                        "taskHandlingTime": "NULL",
+                        "isReassign": "false",
+                        "activity": "ATT",
+                        "priority": "NULL",
+                        "reason": "NULL",
+                        "rushIndicator": "false",
+                        "createdOn": "2022-04-21T05:48:24.097Z",
+                        "modifiedOn": "2022-04-21T05:48:24.097Z",
+                        "createdBy": "NULL",
+                        "modifiedBy": "NULL"
+                    }
+                ]
+            }
+        },
+        "partition": 0,
+        "offset": 2472
+    }
+]

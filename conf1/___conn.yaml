@@ -1,0 +1,53 @@
+kf_na_dev: 
+  name: kf_na_dev
+  servers: "nausd-lapp0114.chubb.com:9095"
+  password: Ipa!Pass@99
+kf_na_uat:
+  name: kf_na_uat
+  servers: "nausd-lapp0232.chubb.com:9095"
+  password: Ipa!Pass@99
+kf_na_prod:
+  name: kf_na_prod
+  servers: "nausp-lapp0233.chubb.com:9095,nausp-lapp0234.chubb.com:9095,nausp-lapp0235.chubb.com:9095"
+  password: Ipa!Pass@99
+kf_na_la_uat:
+  password: laleaduser@123
+el_na_dev:
+  name: el_na_dev
+  hosts: https://aipexplore.chubb.com:9200
+  username: ipa-devlpr
+  password: Chubb@123
+  ssl_context_cafile: conf/___Chubb_CA_2014.crt
+el_na_uat:
+  name: el_na_uat
+  hosts: validate.chubb.com
+  username: ipa-devlpr-uat
+  password: Chubb@123
+  ssl_context_cafile: conf/___Chubb-CA-2014.crt
+el_na_prod:
+  name: el_na_prod
+  hosts: monitor.chubb.com
+  username: ipa-appid
+  password: DrRoot@20!
+  ssl_context_cafile: conf/___ca.crt
+wa_na_aks_sit:
+  name: wa_na_aks_sit
+  base-url: https://nasit.chubbdigital.com
+  APP_ID: 5e8148c0-3db6-4134-9f9e-32e428502671
+  APP_KEY: 1gBCrIG05GT1mmes41o4sggjaMJBB0yWrX12ZYcoJjo=
+  Resource: 0bae9000-afef-4544-87f4-b80a79f34997
+  Ocp-Apim-Subscription-Key: 3b9ce9d079d14633a69aad58089a36d9
+wa_na_aks_uat:
+  name: wa_na_aks_uat
+  base-url: https://nauat.chubbdigital.com
+  APP_ID: 4fa470b9-be12-4590-b912-bb4e85979675
+  APP_KEY: lvoEYrp1zvf+R32MuNyDijf3/mJ+2bSr9uowizLR434=
+  Resource: 869848ad-c28f-4ac2-b6b2-788bb72ab62e
+  Ocp-Apim-Subscription-Key: cd65b2f74d724664bf0e4630dce9a234
+wa_na_aks_prod:
+  name: wa_na_aks_prod
+  base-url: https://na.chubbdigital.com
+  APP_ID: 1642525b-56f1-411f-89c6-d6d630b51f6c
+  APP_KEY: R~_FuhV_DHpvKzBOY.4mba-p29A-Lf52-T
+  Resource: 35bba916-c40b-452b-a9df-40b41b1713e9
+  Ocp-Apim-Subscription-Key: 145e2350eaa5439f906a70c3297c390c

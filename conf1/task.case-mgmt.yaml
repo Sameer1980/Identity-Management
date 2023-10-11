@@ -1,0 +1,23 @@
+wa_na_aks_env: 
+  _env:
+    dev: "{{conn.wa_na_aks_sit}}"
+    uat: "{{conn.wa_na_aks_uat}}"
+    prod: "{{conn.wa_na_aks_prod}}"
+el_na_env: 
+  _env:
+    dev: "{{conn.el_na_dev}}"
+    uat: "{{conn.el_na_uat}}"
+    prod: "{{conn.el_na_prod}}"
+source: "{{conn.wa_na_aks}}"
+target: "{{conn.el_na}}"
+kafka-group-id: case-mgmt4
+chunk-size: 50000
+elastic-index:
+  _env:
+    dev: "ipa-case-mgmt-dev"
+    uat: "ipa-case-mgmt-uat"
+    prod: "ipa-case-mgmt-prod" 
+subscribe:
+  - ccm.claims.message.case.v1
+  - ccm.claims.message.case-reference.v1
+  - ccm.claims.message.case-audit.v1

@@ -1,0 +1,76 @@
+kf_na_env: 
+  _env:
+    dev: "{{conn.kf_na_prod}}"
+    uat: "{{conn.kf_na_prod}}"
+    prod: "{{conn.kf_na_prod}}"
+el_na_env: 
+  _env:
+    dev: "{{conn.el_na_dev}}"
+    uat: "{{conn.el_na_dev}}"
+    prod: "{{conn.el_na_uat}}"
+kafka-group-id: 
+  _env:
+    dev: "CO_IPA-KAFKA_DEV"
+    uat: "CO_IPA-KAFKA_UAT"
+source: "{{conn.kf_na}}"
+target: "{{conn.el_na}}"
+chunk-size: 50000
+elastic-index: ipa-kafka
+subscribe:
+  - auto-endorsement
+  - auto-book-issue
+  - workorder-ace
+  - workorder-audit
+  - workorder-branch
+  - workorder-ce
+  - workorder-crits
+  - workorder-endorsement
+  - workorder-hli
+  - workorder-mfg-prerate
+  - workorder-prerate
+  - workorder-premier
+  - clearance-wholesale
+  - retail-commercial
+  - wf_LTM_ar_claims_payments
+  - wf_LTM_br_claims_massive
+  - wf_LTM_br_claims_registration
+  - wf_LTM_br_claims_payments
+  - wf_LTM_ar_claims_registration
+  - wf_LTM_pe_claims_registration
+  - wf_LTM_pe_claims_payments
+  - wf_LTM_pr_claims_registration
+  - wf_LTM_pr_claims_payments
+  - wf_LTM_ch_change_reserves
+  - wf_LTM_ch_file_transformation
+  - wf_LTM_col_claims_payments
+  - wf_LTM_ar_issuance_uploader
+  - package-ce
+  - package-non-ce
+  - package-endorsement
+  - package-prerate
+  # - Package_Cancel_and_Reinstate
+  - Package_Extension
+  - Package_COP
+  - US_Facultative
+  - CL_GENIUS_Cash
+  - Bridger
+  - Umbrella_Book_and_Issue
+  - PRS-RRA
+  - TP_NA_IPA-FNC-EVENTS
+  - TP_NA_IPA-DASHBOARD-WF-INDEX-CO-MAPPED_PROD
+  - TP_NA_IPA-DASHBOARD-WF-PRS-DRC-MAPPED_PROD
+  - TP_NA_IPA-DASHBOARD-PRS-LN-ODEN-MAPPED_PROD
+  - TP_NA_IPA-DASHBOARD-PRS-LN-PRINT-MAPPED_PROD
+  - TP_NA_IPA-DASHBOARD-PRS-LN-POSTAUDIT-MAPPED_PROD
+  - TP_NA_IPA-DASHBOARD-PRS-LN-PREAUDIT-MAPPED_PROD
+  - TP_NA_IPA-DASHBOARD-WF-NA-OPS-SUBMISSIONS_PROD
+  - TP_NA_IPA-DASHBOARD-WF-LATAM-PE-CLAIMSRESERVE-MAPPED_PROD
+  - Loss_Runs
+  - TP_NA_IPA-DASHBOARD-FNC-NO-TOUCH_PROD
+  - TP_NA_IPA-DASHBOARD-FNC-LOW-TOUCH_PROD
+  - wf_LTM_ar_q_control
+  - wf_LTM_ar_claims_payments_reinsurance
+  - TP_NA_IPA-DASHBOARD-WF-COG-INDEXING-IDP_PROD
+  - TP_NA_IPA-DASHBOARD-WF-COG-INDEXING-DCP_PROD
+  - TP_NA_IPA-DASHBOARD-WF-COG-INDEXING-WV_PROD
+  - TP_NA_IPA-DASHBOARD-WF-COG-INDEXING-CC_PROD

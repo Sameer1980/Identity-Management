@@ -1,0 +1,86 @@
+el_na:
+  name: "{{el_na_env.name}}"
+  kwargs:
+    hosts: "{{el_na_env.hosts}}"
+    timeout: 30
+    max_retries: 10
+    retry_on_timeout: True
+    http_auth:
+      - "{{el_na_env.username}}"
+      - "{{el_na_env.password}}"
+    ssl_context_cafile: "{{el_na_env.ssl_context_cafile}}"
+kf_na:
+  name: "{{kf_na_env.name}}"
+  consumer:
+    kwargs:
+      bootstrap.servers: "{{kf_na_env.servers}}"
+      security.protocol: "ssl"
+      ssl.ca.location: "conf/___caroot.cer"
+      ssl.keystore.location: "conf/___ipa-dashboard.jks"
+      ssl.keystore.password: "{{kf_na_env.password}}"
+      session.timeout.ms: 60000
+      auto.offset.reset: "earliest"
+      enable.auto.commit: false
+      enable.partition.eof: true
+      fetch.max.bytes: 100000000
+      group.id: "{{kafka-group-id}}"
+  producer:
+    kwargs:
+      bootstrap.servers: "{{kf_na_env.servers}}"
+      security.protocol: "ssl"
+      ssl.ca.location: "conf/___caroot.cer"
+      ssl.keystore.location: "conf/___ipa-dashboard.jks"
+      ssl.keystore.password: "{{kf_na_env.password}}"
+      delivery.timeout.ms: 600000
+      transaction.timeout.ms: 600000
+      message.timeout.ms: 600000
+wa_na_aks:
+  name: "{{wa_na_aks.name}}"
+  token:
+    kwargs:
+      url: "{{wa_na_aks_env.base-url}}/api/tokens/?Identity=AAD"
+      method: POST
+      headers:
+        APP_ID: "{{wa_na_aks_env.APP_ID}}"
+        APP_KEY: "{{wa_na_aks_env.APP_KEY}}"
+        Resource: "{{wa_na_aks_env.Resource}}"
+        apiVersion: "2"
+  consumer-instance:
+    kwargs:
+      url: "{{wa_na_aks_env.base-url}}/enterprise.servicing.chubbio-kafka/consumers/{{kafka-group-id}}"
+      method: POST
+      headers:
+        Authorization: "bearer {bearer_token}"
+        Ocp-Apim-Subscription-Key: "{{wa_na_aks_env.Ocp-Apim-Subscription-Key}}"
+        apiVersion: "1"
+        Content-Type: application/vnd.kafka.v2+json
+        Accept-Encoding: "gzip, deflate, br"
+      data:
+        name: "{{kafka-group-id}}-instance"
+        format: jsonschema
+        #format: jsonschema
+        auto.offset.reset: earliest
+        auto.commit.enable: 'true'
+  instance-subscription:
+    kwargs:
+      url: "{{wa_na_aks_env.base-url}}/enterprise.servicing.chubbio-kafka/consumers/{{kafka-group-id}}/instances/{{kafka-group-id}}-instance/subscription"
+      method: POST
+      headers:
+        Authorization: "bearer {bearer_token}"
+        Ocp-Apim-Subscription-Key: "{{wa_na_aks_env.Ocp-Apim-Subscription-Key}}"
+        apiVersion: "1"
+        Content-Type: application/vnd.kafka.v2+json
+        Accept-Encoding: "gzip, deflate, br"
+      data: 
+        topics: "{{subscribe}}"
+  get-records:
+    kwargs:
+      url: "{{wa_na_aks_env.base-url}}/enterprise.servicing.chubbio-kafka/consumers/{{kafka-group-id}}/instances/{{kafka-group-id}}-instance/records"
+      method: GET
+      headers:
+        Authorization: "bearer {bearer_token}"
+        Ocp-Apim-Subscription-Key: "{{wa_na_aks_env.Ocp-Apim-Subscription-Key}}"
+        apiVersion: "1"
+        Accept: application/vnd.kafka.jsonschema.v2+json
+        # application/vnd.kafka.jsonschema.v2+json
+        # application/vnd.kafka.v2+json

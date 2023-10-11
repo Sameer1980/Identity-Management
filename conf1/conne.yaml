@@ -1,0 +1,11 @@
+elasticsearch-dev:
+  ca_certs_path: 'conf/___Chubb_CA_2014.crt'
+  hosts: ['https://aipexplore.chubb.com:9200']
+  port: 9200
+  username: 'ipa-devlpr'
+  password: 'Chubb@123'
+  index_name: 
+  _env:
+    read: 'case-mgmt-dev-stg'
+    write: 'case-mgmt-dev-rpt'
+    
