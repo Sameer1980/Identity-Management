@@ -1,0 +1,106 @@
+from asyncio.windows_events import NULL
+from urllib import response
+from elasticsearch7 import Elasticsearch
+import yaml
+from elasticsearch7.helpers import scan
+import elasticsearch7
+import json
+from elasticsearch7 import Elasticsearch, helpers
+
+# Parameter info
+credentials = yaml.safe_load(open(r'conf/conne.yaml'))
+#print(credentials)
+
+#CONNECTION POOL
+env = 'dev'
+es = Elasticsearch( hosts = credentials['elasticsearch-%s' % env]['hosts'], 
+                     port = credentials['elasticsearch-%s' % env]['port'],
+                     http_auth = (credentials['elasticsearch-%s' % env]['username'],credentials['elasticsearch-%s' % env]['password']),
+                     http_compress = True,
+                     use_ssl = True,
+                     verify_certs = True,
+                     ca_certs = credentials['elasticsearch-%s' % env]['ca_certs_path'])
+#print(es.info())
+
+#Read data from staging index
+output = elasticsearch7.helpers.scan( es,index='case-mgmt-dev-stg',preserve_order=True, doc_type="_doc",
+    size=1000,query={"query":{"match_all": {}}})
+
+count = 0
+#actions = list(output)
+actions = []
+for record in output:
+    count+=1
+    new_d = dict()
+    
+    #requestID
+    if 'value' in record['_source']:
+        if 'audit' in record['_source']['value']:
+            record['_source']['value']['audit']['requestID']=record['_source']['value']['audit']['requestID'].split('_')[-1]   
+        
+        #caseID
+        if 'case' in record['_source']['value']:
+            record['_source']['value']['case']['caseID']=record['_source']['value']['case']['caseID'].split('_')[-1] 
+            
+            #taskID
+            if len(record['_source']['value']['case']['task']) > 0:
+                for j in range(0,len(record['_source']['value']['case']['task'])):
+                    #print("-------------")
+                    #print(record['_source']['value']['case']['task'])
+                    if record['_source']['value']['case']['task'][j]['taskID']!= 'NULL': 
+                        taskID = record['_source']['value']['case']['task'][j]['taskID']
+                        #print(taskID.split("_"))
+                        if len(taskID.split("_"))==3:
+                            record['_source']['value']['case']['task'][j]['taskID']=record['_source']['value']['case']['task'][j]['taskID'].split('_')[-2]
+                        elif len(taskID.split("_"))==2:
+                            record['_source']['value']['case']['task'][j]['taskID']=record['_source']['value']['case']['task'][j]['taskID'].split('_')[-1]
+                    #Replace NULL by Zero for taskhandlingtime and targethandlingtime
+                    if record['_source']['value']['case']['task'][j]['targetHandlingTime']=='NULL':
+                        record['_source']['value']['case']['task'][j]['targetHandlingTime']= 0.0
+                    elif record['_source']['value']['case']['task'][j]['targetHandlingTime']==' ':
+                        record['_source']['value']['case']['task'][j]['targetHandlingTime']= 0.0
+
+                    if record['_source']['value']['case']['task'][j]['taskHandlingTime']=='NULL':
+                        record['_source']['value']['case']['task'][j]['taskHandlingTime']= 0.0
+                    elif record['_source']['value']['case']['task'][j]['taskHandlingTime']==' ':
+                        record['_source']['value']['case']['task'][j]['taskHandlingTime']= 0.0
+                    
+                    if record['_source']['value']['case']['task'][j]['targetHandlingTime']==0.0:
+                          #new_d['value.case.task.Efficiencyvalue'] = 0.0
+                        record['_source']['value']['case']['task'][j]['Efficiencyvalue']=0.0
+                    else:
+                        record['_source']['value']['case']['task'][j]['Efficiencyvalue'] = float(record['_source']['value']['case']['task'][j]['taskHandlingTime'] )/ float(record['_source']['value']['case']['task'][j]['targetHandlingTime'])
+    #Derieve field creation Tasktype
+    
+    #if 'value' in record['_source']:
+        #if 'case' in record['_source']['value']:
+            #if len(record['_source']['value']['case']['task']) > 0:
+                #for j in range(0,len(record['_source']['value']['case']['task'])):
+                    if record['_source']['value']['case']['task'][j]['taskStatus'] == 'Unassigned':
+                        record['_source']['value']['case']['task'][j]['Tasktype'] = 'New'
+                    elif record['_source']['value']['case']['task'][j]['taskStatus'] == 'NULL':
+                        record['_source']['value']['case']['task'][j]['Tasktype'] = 'NULL'
+                    else:
+                        record['_source']['value']['case']['task'][j]['Tasktype'] = 'Total'    
+                    #Derived field SLAtype
+                    if record['_source']['value']['case']['task'][j]['slaMetFlag'] == 'true':
+                        record['_source']['value']['case']['task'][j]['SLAtype'] = 'inSLA'
+                    elif record['_source']['value']['case']['task'][j]['slaMetFlag'] == 'NULL':
+                        record['_source']['value']['case']['task'][j]['SLAtype'] = 'NULL'
+                    else:
+                        record['_source']['value']['case']['task'][j]['SLAtype'] = 'outSLA'
+
+                
+                        #new_d['value.case.task.Efficiencyvalue'] = float(record['_source']['value']['case']['task'][j]['taskHandlingTime'] )/ float(record['_source']['value']['case']['task'][j]['targetHandlingTime'])
+                    
+    actions.append(record['_source']) 
+    
+
+    #print("..................")
+#print(len(actions), type(actions))
+#print(actions)
+#print("length of action variable : ", list(output))
+#actions = list(output)
+res = helpers.bulk(es, actions , index = 'case-mgmt-dev-rpt' , chunk_size=1000, request_timeout = 200)
+
+

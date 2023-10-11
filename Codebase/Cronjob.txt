@@ -1,0 +1,1 @@
+*/15 * * * * /opt/app/itlaked/anaconda3/bin/python3.6 /home/itlaked/git-repos/case-mgmt-kibana/elk_transformation_15m.py >> /home/itlaked/git-repos/case-mgmt-kibana/logs/elk_transformation_15m_{}.log 2>&1
